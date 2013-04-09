@@ -3,13 +3,13 @@
 #include <iostream>
 #include <cstdlib>
 
-
 using namespace std;
 
-void merge(long* left, long* right,
+// merge two sorted arrays
+void merge(int* left, int* right,
 		   const int n_left, const int n_right,
-		   long* result,
-		   long* tmp )
+		   int* result,
+		   int* tmp )
 {
 	unsigned int it = 0;
     unsigned int left_it = 0, right_it = 0;
@@ -47,48 +47,42 @@ void merge(long* left, long* right,
 
 }
 
-void mergesort(long* vec, int threads, int n, int st, long* tmp )
+// mergesort with OpenMP parallelism
+void mergesort(int* vec, int threads, int n,  int* tmp )
 {
     // Termination condition: List is completely sorted if it
     // only contains a single element.
-    if(n == 1)
-    {
-        return;
-    }
+    if(n == 1){
+		return;
+	}
 
     // Determine the location of the middle element in the vector
-	long middle = st+n/2;
-
-	long* left = vec;
-	int n_left = n/2;
-	int st_left = st;
-	long* tmp_left = tmp;
+	int* left = vec; // left array pointer
+	int n_left = n/2; // number of elements in left array
+	int* tmp_left = tmp; // left tmp array pointer
 	
-	long* right = left+n/2;
-	int n_right = n-n/2;
-	int st_right = st+middle;
-	long* tmp_right = tmp+n/2;
+	int* right = left+n/2; // right array pointer
+	int n_right = n-n/2; // number of elements in right array
+	int* tmp_right = tmp+n/2; // right tmp array pointer
 	
     // Perform a merge sort on the two smaller vectors
     if (threads > 1) {
 		
 		#pragma omp parallel sections
 		{
-		#pragma omp section
-		{
-		cout<<omp_get_thread_num()<<endl;
-		mergesort(left, threads/2, n_left, st_left, tmp_left);
+			#pragma omp section
+			{
+				mergesort(left, threads/2, n_left, tmp_left);
+			}
+			#pragma omp section
+			{
+				mergesort(right, threads - threads/2, n_right, tmp_right);
+			}
 		}
-		#pragma omp section
-		{
-				cout<<omp_get_thread_num()<<endl;				
-				mergesort(right, threads - threads/2, n_right, st_right, tmp_right);
-		}
-	}
 	}
     else {
-		mergesort(left, 1, n_left, st_left, tmp_left);
-		mergesort(right, 1, n_right, st_right, tmp_right);
+		mergesort(left, 1, n_left, tmp_left);
+		mergesort(right, 1, n_right, tmp_right);
 	}
 
     merge(left, right, n_left, n_right, left, tmp );
@@ -98,47 +92,46 @@ void mergesort(long* vec, int threads, int n, int st, long* tmp )
 
 int main()
 {
-		// thread nesting enabled
-		omp_set_nested(1);
+	// thread nesting enabled
+	omp_set_nested(1);
 		
 	const int n = 10000;
-	long v[n];
-	long tmp[n];
+	int v[n];
+	int tmp[n];
 	
-	for (long i=0; i<n; ++i)
+	for (int i=0; i<n; ++i)
 		v[i] = rand() % (n*5);
 
-	// for (long i=0; i<n; ++i)
+	// for (int i=0; i<n; ++i)
 	// 	cout << v[i] << "\n";
 	
 	double start=omp_get_wtime();
-	mergesort(v, 1, n, 0, tmp);
+	mergesort(v, 1, n, tmp);
 	double end=omp_get_wtime();
 	cout<<end-start<<endl;
 	
 	start=omp_get_wtime();
-	mergesort(v, 2, n, 0, tmp);
+	mergesort(v, 2, n, tmp);
 	end=omp_get_wtime();
 	cout<<end-start<<endl;
 
 	start=omp_get_wtime();
-	mergesort(v, 4, n, 0, tmp);
+	mergesort(v, 4, n, tmp);
 	end=omp_get_wtime();
 	cout<<end-start<<endl;
 
 	start=omp_get_wtime();
-	mergesort(v, 8, n, 0, tmp);
+	mergesort(v, 8, n, tmp);
 	end=omp_get_wtime();
 	cout<<end-start<<endl;
 
 	start=omp_get_wtime();
-	mergesort(v, 16, n, 0, tmp);
+	mergesort(v, 16, n, tmp);
 	end=omp_get_wtime();
 	cout<<end-start<<endl;
   
+	for (int i=0; i<n; ++i)
+		cout << i<<" "<<v[i] << "\n";
 
-	// for (long i=0; i<n; ++i)
-	// 	cout << i<<" "<<v[i] << "\n";
-
-  return 0;
+	return 0;
 }
