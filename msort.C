@@ -90,48 +90,48 @@ void mergesort(int* vec, int threads, int n,  int* tmp )
 	return;
 }
 
-int main()
-{
-	// thread nesting enabled
-	omp_set_nested(1);
+// int main()
+// {
+// 	// thread nesting enabled
+// 	omp_set_nested(1);
 		
-	const int n = 10000;
-	int v[n];
-	int tmp[n];
+// 	const int n = 10000;
+// 	int v[n];
+// 	int tmp[n];
 	
-	for (int i=0; i<n; ++i)
-		v[i] = rand() % (n*5);
+// 	for (int i=0; i<n; ++i)
+// 		v[i] = rand() % (n*5);
 
-	// for (int i=0; i<n; ++i)
-	// 	cout << v[i] << "\n";
+// 	// for (int i=0; i<n; ++i)
+// 	// 	cout << v[i] << "\n";
 	
-	double start=omp_get_wtime();
-	mergesort(v, 1, n, tmp);
-	double end=omp_get_wtime();
-	cout<<end-start<<endl;
+// 	double start=omp_get_wtime();
+// 	mergesort(v, 1, n, tmp);
+// 	double end=omp_get_wtime();
+// 	cout<<end-start<<endl;
 	
-	start=omp_get_wtime();
-	mergesort(v, 2, n, tmp);
-	end=omp_get_wtime();
-	cout<<end-start<<endl;
+// 	start=omp_get_wtime();
+// 	mergesort(v, 2, n, tmp);
+// 	end=omp_get_wtime();
+// 	cout<<end-start<<endl;
 
-	start=omp_get_wtime();
-	mergesort(v, 4, n, tmp);
-	end=omp_get_wtime();
-	cout<<end-start<<endl;
+// 	start=omp_get_wtime();
+// 	mergesort(v, 4, n, tmp);
+// 	end=omp_get_wtime();
+// 	cout<<end-start<<endl;
 
-	start=omp_get_wtime();
-	mergesort(v, 8, n, tmp);
-	end=omp_get_wtime();
-	cout<<end-start<<endl;
+// 	start=omp_get_wtime();
+// 	mergesort(v, 8, n, tmp);
+// 	end=omp_get_wtime();
+// 	cout<<end-start<<endl;
 
-	start=omp_get_wtime();
-	mergesort(v, 16, n, tmp);
-	end=omp_get_wtime();
-	cout<<end-start<<endl;
+// 	start=omp_get_wtime();
+// 	mergesort(v, 16, n, tmp);
+// 	end=omp_get_wtime();
+// 	cout<<end-start<<endl;
   
-	for (int i=0; i<n; ++i)
-		cout << i<<" "<<v[i] << "\n";
+// 	for (int i=0; i<n; ++i)
+// 		cout << i<<" "<<v[i] << "\n";
 
-	return 0;
-}
+// 	return 0;
+// }
