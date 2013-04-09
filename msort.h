@@ -83,13 +83,13 @@ void mergesort(T* vec, const int threads, const int n,  T* tmp,
 	}
 
     // Determine the location of the middle element in the vector
-	int* left = vec; // left array pointer
+	T* left = vec; // left array pointer
 	int n_left = n/2; // number of elements in left array
-	int* tmp_left = tmp; // left tmp array pointer
+	T* tmp_left = tmp; // left tmp array pointer
 	
-	int* right = left+n/2; // right array pointer
+	T* right = left+n/2; // right array pointer
 	int n_right = n-n/2; // number of elements in right array
-	int* tmp_right = tmp+n/2; // right tmp array pointer
+	T* tmp_right = tmp+n/2; // right tmp array pointer
 	
     // Perform a merge sort on the two smaller vectors
     if (threads > 1) {
