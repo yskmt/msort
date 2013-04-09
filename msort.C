@@ -3,10 +3,11 @@
 using namespace std;
 
 // merge two sorted arrays
-void merge(int* left, int* right,
+template <class T>
+void merge(T* left, T* right,
 		   const int n_left, const int n_right,
-		   int* result,
-		   int* tmp )
+		   T* result,
+		   T* tmp )
 {
 	unsigned int it = 0;
     unsigned int left_it = 0, right_it = 0;
@@ -45,7 +46,8 @@ void merge(int* left, int* right,
 }
 
 // mergesort with OpenMP parallelism
-void mergesort(int* vec, int threads, int n,  int* tmp )
+template <class T>
+void mergesort(T* vec, const int threads, const int n,  T* tmp )
 {
     // Termination condition: List is completely sorted if it
     // only contains a single element.
@@ -105,29 +107,29 @@ void mergesort(int* vec, int threads, int n,  int* tmp )
 // 	// 	cout << v[i] << "\n";
 	
 // 	double start=omp_get_wtime();
-// 	mergesort(v, 1, n, tmp);
+// 	mergesort<int>(v, 1, n, tmp);
 // 	double end=omp_get_wtime();
 // 	cout<<end-start<<endl;
 	
-// 	start=omp_get_wtime();
-// 	mergesort(v, 2, n, tmp);
-// 	end=omp_get_wtime();
-// 	cout<<end-start<<endl;
+// 	// start=omp_get_wtime();
+// 	// mergesort(v, 2, n, tmp);
+// 	// end=omp_get_wtime();
+// 	// cout<<end-start<<endl;
 
-// 	start=omp_get_wtime();
-// 	mergesort(v, 4, n, tmp);
-// 	end=omp_get_wtime();
-// 	cout<<end-start<<endl;
+// 	// start=omp_get_wtime();
+// 	// mergesort(v, 4, n, tmp);
+// 	// end=omp_get_wtime();
+// 	// cout<<end-start<<endl;
 
-// 	start=omp_get_wtime();
-// 	mergesort(v, 8, n, tmp);
-// 	end=omp_get_wtime();
-// 	cout<<end-start<<endl;
+// 	// start=omp_get_wtime();
+// 	// mergesort(v, 8, n, tmp);
+// 	// end=omp_get_wtime();
+// 	// cout<<end-start<<endl;
 
-// 	start=omp_get_wtime();
-// 	mergesort(v, 16, n, tmp);
-// 	end=omp_get_wtime();
-// 	cout<<end-start<<endl;
+// 	// start=omp_get_wtime();
+// 	// mergesort(v, 16, n, tmp);
+// 	// end=omp_get_wtime();
+// 	// cout<<end-start<<endl;
   
 // 	for (int i=0; i<n; ++i)
 // 		cout << i<<" "<<v[i] << "\n";

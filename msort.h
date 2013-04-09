@@ -5,11 +5,13 @@
 
 
 // merge two sorted arrays
-void merge(int* left, int* right,
+template <class T>
+void merge(T* left, T* right,
 		   const int n_left, const int n_right,
-		   int* result,
-		   int* tmp );
+		   T* result,
+		   T* tmp );
 
 // mergesort with OpenMP parallelism
-void mergesort(int* vec, int threads, int n,  int* tmp );
+template <class T>
+void mergesort(T* vec, const int threads, const int n,  T* tmp );
 
