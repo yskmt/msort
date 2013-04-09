@@ -5,16 +5,24 @@
 
 using namespace std;
 
+// int(*compar)(const T *, const T *)
+// 1 for left<right
+// 0 for else
+
 // merge two sorted arrays
 template <class T>
 void merge(T* left, T* right,
 		   const int n_left, const int n_right,
 		   T* result,
-		   T* tmp );
+		   T* tmp,
+		   int(*compar)(const T, const T)
+		   );
 
 // mergesort with OpenMP parallelism
 template <class T>
-void mergesort(T* vec, const int threads, const int n,  T* tmp );
+void mergesort(T* vec, const int threads, const int n,  T* tmp,
+			   int(*compar)(const T, const T)
+			   );
 
 
 // merge two sorted arrays
@@ -22,7 +30,9 @@ template <class T>
 void merge(T* left, T* right,
 		   const int n_left, const int n_right,
 		   T* result,
-		   T* tmp )
+		   T* tmp,
+		   int(*compar)(const T, const T)
+		   )
 {
 	unsigned int it = 0;
     unsigned int left_it = 0, right_it = 0;
@@ -31,7 +41,7 @@ void merge(T* left, T* right,
     while(left_it < n_left && right_it < n_right ) {
 		it = left_it+right_it;
 		// cout<<it<<endl;
-		if(left[left_it] < right[right_it]) {
+		if(compar(left[left_it], right[right_it])) {
 			tmp[it] = left[left_it];
 			left_it++;
 		}
@@ -62,7 +72,9 @@ void merge(T* left, T* right,
 
 // mergesort with OpenMP parallelism
 template <class T>
-void mergesort(T* vec, const int threads, const int n,  T* tmp )
+void mergesort(T* vec, const int threads, const int n,  T* tmp,
+			   int(*compar)(const T, const T)
+			   )
 {
     // Termination condition: List is completely sorted if it
     // only contains a single element.
@@ -86,20 +98,20 @@ void mergesort(T* vec, const int threads, const int n,  T* tmp )
 		{
 			#pragma omp section
 			{
-				mergesort(left, threads/2, n_left, tmp_left);
+				mergesort(left, threads/2, n_left, tmp_left, compar);
 			}
 			#pragma omp section
 			{
-				mergesort(right, threads - threads/2, n_right, tmp_right);
+				mergesort(right, threads - threads/2, n_right, tmp_right, compar);
 			}
 		}
 	}
     else {
-		mergesort(left, 1, n_left, tmp_left);
-		mergesort(right, 1, n_right, tmp_right);
+		mergesort(left, 1, n_left, tmp_left, compar);
+		mergesort(right, 1, n_right, tmp_right, compar);
 	}
 
-    merge(left, right, n_left, n_right, left, tmp );
+    merge(left, right, n_left, n_right, left, tmp, compar );
 
 	return;
 }

@@ -1,7 +1,11 @@
-// #include "msort.h"
+#include "msort.h"
 
 
+// int compar(const int left, const int right)
+// {
+// 	return (left)<(right);
 
+// }
 
 // int main()
 // {
@@ -19,7 +23,7 @@
 // 	// 	cout << v[i] << "\n";
 	
 // 	double start=omp_get_wtime();
-// 	mergesort<int>(v, 1, n, tmp);
+// 	mergesort<int>(v, 1, n, tmp, compar);
 // 	double end=omp_get_wtime();
 // 	cout<<end-start<<endl;
 	
