@@ -1,7 +1,4 @@
-#include <omp.h>
-#include <vector>
-#include <iostream>
-#include <cstdlib>
+#include "msort.h"
 
 using namespace std;
 
@@ -89,6 +86,8 @@ void mergesort(int* vec, int threads, int n,  int* tmp )
 
 	return;
 }
+
+
 
 // int main()
 // {
